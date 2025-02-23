@@ -32,4 +32,10 @@ public class Alumno {
 
     @OneToMany(mappedBy = "alumno")
     private List<Incidencia> incidencias;
+
+    @OneToOne(mappedBy = "alumno", cascade = CascadeType.ALL)
+    private HistorialMedico historialMedico;
+
+    @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL)
+    private List<Asistencia> asistencias;
 }
