@@ -92,10 +92,10 @@ public class UsuarioControlador {
 
     @PostMapping("/login")
     public ResponseEntity<String> autenticarUsuario(@RequestBody Map<String, String> datos) {
-        String usuario = datos.get("usuario");
-        String password = datos.get("password");
+        String email = datos.get("email");
+        String contrasena = datos.get("password");
 
-        boolean autenticado = usuarioServicio.autenticarUsuario(usuario, password);
+        boolean autenticado = usuarioServicio.autenticarUsuario(email, contrasena);
         return autenticado ? ResponseEntity.ok("Autenticación exitosa")
                 : ResponseEntity.status(401).body("Datos incorrectos");
     }
