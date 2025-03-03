@@ -13,6 +13,7 @@ public class Grupo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String nombre;
 
     @ManyToOne
@@ -20,7 +21,7 @@ public class Grupo {
     private Director director;
 
     @OneToOne
-    @JoinColumn(name = "profesor_id")
+    @JoinColumn(name = "profesor_id", unique = true)
     private Profesor profesor;
 
     @OneToMany(mappedBy = "grupo")

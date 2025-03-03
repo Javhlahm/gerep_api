@@ -31,6 +31,7 @@ public class Alumno {
     private ContactoEmergencia contactoEmergencia;
 
     @OneToMany(mappedBy = "alumno")
+    @Column(unique = true)
     private List<Incidencia> incidencias;
 
     @OneToOne(mappedBy = "alumno", cascade = CascadeType.ALL)

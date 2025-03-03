@@ -10,6 +10,7 @@ import lombok.Data;
 public class Director extends Usuario {
 
     @OneToMany(mappedBy = "director")
+    @Column(nullable = true)
     private List<Grupo> grupos;
 
 }

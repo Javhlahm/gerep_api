@@ -11,14 +11,14 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String nombre;
 
-    private String usuario;
-
+    @Column(unique = true)
     private String telefono;
 
+    @Column(unique = true)
     private String email;
 
     private String contrasena;

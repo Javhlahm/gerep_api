@@ -9,7 +9,7 @@ import lombok.Data;
 public class Profesor extends Usuario {
 
     @OneToOne
-    @JoinColumn(name = "grupo_id")
+    @JoinColumn(name = "grupo_id", unique = true, nullable = true)
     private Grupo grupo;
 
 }
