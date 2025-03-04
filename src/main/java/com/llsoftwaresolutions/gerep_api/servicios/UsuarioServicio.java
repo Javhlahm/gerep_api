@@ -45,6 +45,7 @@ public class UsuarioServicio {
             usuario.get().setNombre(usuarioActualizado.getNombre());
             usuario.get().setTelefono(usuarioActualizado.getTelefono());
             usuario.get().setEmail(usuarioActualizado.getEmail());
+            usuario.get().setDireccion(usuarioActualizado.getDireccion());
 
             if (usuarioActualizado.getContrasena() != null && !usuarioActualizado.getContrasena().isEmpty()) {
                 usuario.get().setContrasena(passwordEncoder.encode(usuarioActualizado.getContrasena()));

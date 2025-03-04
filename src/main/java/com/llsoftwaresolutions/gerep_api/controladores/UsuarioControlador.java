@@ -16,6 +16,7 @@ import com.llsoftwaresolutions.gerep_api.servicios.UsuarioServicio;
 
 @RestController
 @RequestMapping("/usuarios")
+@CrossOrigin(origins = "*")
 public class UsuarioControlador {
 
     @Autowired
@@ -23,18 +24,21 @@ public class UsuarioControlador {
 
     @PostMapping("/registro/profesor")
     public ResponseEntity<Usuario> registrarProfesor(@RequestBody Profesor profesor) {
+        profesor.setRol("Profesor");
         Usuario usuarioRegistrado = usuarioServicio.registrarUsuario(profesor);
         return ResponseEntity.ok(usuarioRegistrado);
     }
 
     @PostMapping("/registro/padre")
     public ResponseEntity<Usuario> registrarPadre(@RequestBody Padre padre) {
+        padre.setRol("Padre");
         Usuario usuarioRegistrado = usuarioServicio.registrarUsuario(padre);
         return ResponseEntity.ok(usuarioRegistrado);
     }
 
     @PostMapping("/registro/director")
     public ResponseEntity<Usuario> registrarDirector(@RequestBody Director director) {
+        director.setRol("Director");
         Usuario usuarioRegistrado = usuarioServicio.registrarUsuario(director);
         return ResponseEntity.ok(usuarioRegistrado);
     }

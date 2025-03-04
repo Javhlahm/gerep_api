@@ -15,12 +15,15 @@ public class Usuario {
 
     private String nombre;
 
-    @Column(unique = true)
     private String telefono;
+
+    private String direccion;
 
     @Column(unique = true)
     private String email;
 
     private String contrasena;
+
+    private String rol;
 
 }
