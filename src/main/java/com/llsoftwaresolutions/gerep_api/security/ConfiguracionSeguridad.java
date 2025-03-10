@@ -21,6 +21,7 @@ public class ConfiguracionSeguridad {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/usuarios/**").permitAll()
+                        .requestMatchers("/alumnos/**").permitAll()
                         .anyRequest().authenticated());
         return http.build();
     }
