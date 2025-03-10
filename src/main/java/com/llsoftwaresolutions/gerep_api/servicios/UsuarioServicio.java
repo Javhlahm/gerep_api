@@ -26,12 +26,7 @@ public class UsuarioServicio {
 
     public Optional<Usuario> obtenerUsuarioPorId(Long id) {
         Optional<Usuario> usuarioEncontrado = usuarioRepositorio.findById(id);
-        if (usuarioEncontrado.isPresent()) {
-            return usuarioEncontrado;
-        } else {
-            throw new RuntimeException("Usuario no Encontrado");
-        }
-
+        return usuarioEncontrado;
     }
 
     public List<Usuario> listarUsuarios() {
