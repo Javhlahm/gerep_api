@@ -37,7 +37,10 @@ public class AlumnoServicio {
             alumno.get().setFoto(alumnoActualizado.getFoto());
             alumno.get().setPadres(alumnoActualizado.getPadres());
             alumno.get().setContactoEmergencia(alumnoActualizado.getContactoEmergencia());
-            alumno.get().setHistorialMedico(alumnoActualizado.getHistorialMedico());
+            alumno.get().setEnfermedades(alumnoActualizado.getEnfermedades());
+            alumno.get().setTipoSangre(alumnoActualizado.getTipoSangre());
+            alumno.get().setAlergias(alumnoActualizado.getAlergias());
+            alumno.get().setCuidadosEspeciales(alumnoActualizado.getCuidadosEspeciales());
 
             return alumnoRepositorio.save(alumno.get());
         } else {

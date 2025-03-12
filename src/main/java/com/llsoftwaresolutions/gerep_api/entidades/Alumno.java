@@ -17,6 +17,10 @@ public class Alumno {
     private String nombre;
     private int edad;
     private String foto;
+    private String enfermedades;
+    private String tipoSangre;
+    private String alergias;
+    private String cuidadosEspeciales;
 
     @ManyToOne
     @JoinColumn(name = "grupo_id")
@@ -33,9 +37,6 @@ public class Alumno {
     @OneToMany(mappedBy = "alumno")
     @Column(unique = true)
     private List<Incidencia> incidencias;
-
-    @OneToOne(mappedBy = "alumno", cascade = CascadeType.ALL)
-    private HistorialMedico historialMedico;
 
     @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL)
     private List<Asistencia> asistencias;
