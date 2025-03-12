@@ -26,7 +26,7 @@ public class AlumnoControlador {
     @Autowired
     private AlumnoServicio alumnoServicio;
 
-    @PostMapping("/registro")
+    @PostMapping
     public ResponseEntity<Alumno> registrarAlumno(@RequestBody Alumno alumno) {
         Alumno alumnoRegistrado = alumnoServicio.registrarAlumno(alumno);
         return ResponseEntity.ok(alumnoRegistrado);
