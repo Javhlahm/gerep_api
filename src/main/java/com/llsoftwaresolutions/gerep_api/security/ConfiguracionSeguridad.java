@@ -23,6 +23,8 @@ public class ConfiguracionSeguridad {
                         .requestMatchers("/usuarios/**").permitAll()
                         .requestMatchers("/alumnos/**").permitAll()
                         .requestMatchers("/asistencias/**").permitAll()
+                        .requestMatchers("/grupos/**").permitAll()
+
                         .anyRequest().authenticated());
         return http.build();
     }
