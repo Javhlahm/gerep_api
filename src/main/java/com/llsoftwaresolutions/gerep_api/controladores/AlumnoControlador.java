@@ -42,6 +42,16 @@ public class AlumnoControlador {
         }
     }
 
+    @GetMapping("/tag/{tagUid}")
+    public ResponseEntity<Alumno> buscarPorTagUid(@PathVariable String tagUid) {
+        Optional<Alumno> alumnoEncontrado = alumnoServicio.buscarPorTagUid(tagUid);
+        if (alumnoEncontrado.isPresent()) {
+            return ResponseEntity.ok(alumnoEncontrado.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping
     public ResponseEntity<List<Alumno>> listarAlumnos() {
         return ResponseEntity.ok(alumnoServicio.listarAlumnos());

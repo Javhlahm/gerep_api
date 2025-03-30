@@ -24,6 +24,11 @@ public class AlumnoServicio {
         return alumnoEncontrado;
     }
 
+    public Optional<Alumno> buscarPorTagUid(String tagUid) {
+        Optional<Alumno> alumnoEncontrado = alumnoRepositorio.findByTagUid(tagUid);
+        return alumnoEncontrado;
+    }
+
     public List<Alumno> listarAlumnos() {
         return alumnoRepositorio.findAll();
     }

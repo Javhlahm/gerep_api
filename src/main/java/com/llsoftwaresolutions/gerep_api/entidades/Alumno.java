@@ -15,7 +15,6 @@ public class Alumno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String tag_uid;
 
     private String nombre;
     private int edad;
@@ -44,4 +43,7 @@ public class Alumno {
     @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Asistencia> asistencias;
+
+    @Column(unique = true)
+    private String tag_uid;
 }
