@@ -32,6 +32,7 @@ public class AlumnoServicio {
         Optional<Alumno> alumno = alumnoRepositorio.findById(id);
 
         if (alumno.isPresent()) {
+            alumno.get().setTag_uid(alumnoActualizado.getTag_uid());
             alumno.get().setNombre(alumnoActualizado.getNombre());
             alumno.get().setEdad(alumnoActualizado.getEdad());
             alumno.get().setFoto(alumnoActualizado.getFoto());

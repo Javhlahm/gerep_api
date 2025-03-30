@@ -2,6 +2,8 @@ package com.llsoftwaresolutions.gerep_api.entidades;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,6 +21,7 @@ public class Asistencia {
     private String estado;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "alumno_id")
     private Alumno alumno;
 

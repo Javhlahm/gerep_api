@@ -22,6 +22,7 @@ public class ConfiguracionSeguridad {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/usuarios/**").permitAll()
                         .requestMatchers("/alumnos/**").permitAll()
+                        .requestMatchers("/asistencias/**").permitAll()
                         .anyRequest().authenticated());
         return http.build();
     }

@@ -2,6 +2,8 @@ package com.llsoftwaresolutions.gerep_api.entidades;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -13,6 +15,7 @@ public class Alumno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String tag_uid;
 
     private String nombre;
     private int edad;
@@ -39,5 +42,6 @@ public class Alumno {
     private List<Incidencia> incidencias;
 
     @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Asistencia> asistencias;
 }
