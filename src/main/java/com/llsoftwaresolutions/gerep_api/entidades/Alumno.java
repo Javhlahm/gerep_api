@@ -45,5 +45,5 @@ public class Alumno {
     private List<Asistencia> asistencias;
 
     @Column(unique = true)
-    private String tag_uid;
+    private String tagUid;
 }
