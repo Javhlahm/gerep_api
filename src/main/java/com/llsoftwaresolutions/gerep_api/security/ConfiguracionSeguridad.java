@@ -24,6 +24,9 @@ public class ConfiguracionSeguridad {
                         .requestMatchers("/alumnos/**").permitAll()
                         .requestMatchers("/asistencias/**").permitAll()
                         .requestMatchers("/grupos/**").permitAll()
+                        .requestMatchers("/contactos-emergencia/**").permitAll()
+                        .requestMatchers("/incidencias/**").permitAll()
+                        .requestMatchers("/api/reportes/**").permitAll()
 
                         .anyRequest().authenticated());
         return http.build();

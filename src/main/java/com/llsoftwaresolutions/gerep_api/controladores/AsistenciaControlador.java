@@ -39,7 +39,10 @@ public class AsistenciaControlador {
     @GetMapping("/{id}")
     public ResponseEntity<Asistencia> obtenerAsistencia(@PathVariable Long id) {
         Optional<Asistencia> asistencia = asistenciaServicio.obtenerAsistenciaPorId(id);
-        return asistencia.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        if (asistencia.isPresent()) {
+            return ResponseEntity.ok(asistencia.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/alumno/{alumnoId}")
