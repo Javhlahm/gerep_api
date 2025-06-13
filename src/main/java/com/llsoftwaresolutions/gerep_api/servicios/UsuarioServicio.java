@@ -56,11 +56,15 @@ public class UsuarioServicio {
         usuarioRepositorio.deleteById(id);
     }
 
-    public boolean autenticarUsuario(String email, String contrasena) {
+    public Optional<Usuario> autenticarUsuario(String email, String contrasena) {
         Optional<Usuario> usuarioEncontrado = usuarioRepositorio.findByEmail(email);
 
         if (usuarioEncontrado.isPresent()) {
-            return passwordEncoder.matches(contrasena, usuarioEncontrado.get().getContrasena());
+            if (passwordEncoder.matches(contrasena, usuarioEncontrado.get().getContrasena())) {
+                return usuarioEncontrado;
+            } else {
+                throw new RuntimeException("Contraseña Incorrecta");
+            }
         } else {
             throw new RuntimeException("Usuario no Encontrado");
         }
