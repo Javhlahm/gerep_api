@@ -24,21 +24,21 @@ public class UsuarioControlador {
 
     @PostMapping("/registro/profesor")
     public ResponseEntity<Usuario> registrarProfesor(@RequestBody Profesor profesor) {
-        profesor.setRol("Profesor");
+        profesor.setRol("profesor");
         Usuario usuarioRegistrado = usuarioServicio.registrarUsuario(profesor);
         return ResponseEntity.ok(usuarioRegistrado);
     }
 
     @PostMapping("/registro/padre")
     public ResponseEntity<Usuario> registrarPadre(@RequestBody Padre padre) {
-        padre.setRol("Padre");
+        padre.setRol("padre");
         Usuario usuarioRegistrado = usuarioServicio.registrarUsuario(padre);
         return ResponseEntity.ok(usuarioRegistrado);
     }
 
     @PostMapping("/registro/director")
     public ResponseEntity<Usuario> registrarDirector(@RequestBody Director director) {
-        director.setRol("Director");
+        director.setRol("director");
         Usuario usuarioRegistrado = usuarioServicio.registrarUsuario(director);
         return ResponseEntity.ok(usuarioRegistrado);
     }
