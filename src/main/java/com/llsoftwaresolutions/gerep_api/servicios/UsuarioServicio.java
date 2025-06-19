@@ -37,18 +37,37 @@ public class UsuarioServicio {
         Optional<Usuario> usuario = usuarioRepositorio.findById(id);
 
         if (usuario.isPresent()) {
-            usuario.get().setNombre(usuarioActualizado.getNombre());
-            usuario.get().setTelefono(usuarioActualizado.getTelefono());
-            usuario.get().setEmail(usuarioActualizado.getEmail());
-            usuario.get().setDireccion(usuarioActualizado.getDireccion());
+    Usuario existente = usuario.get();
 
-            if (usuarioActualizado.getContrasena() != null && !usuarioActualizado.getContrasena().isEmpty()) {
-                usuario.get().setContrasena(passwordEncoder.encode(usuarioActualizado.getContrasena()));
-            }
-            return usuarioRepositorio.save(usuario.get());
-        } else {
-            throw new RuntimeException("Usuario no Encontrado");
-        }
+    if (usuarioActualizado.getNombre() != null && !usuarioActualizado.getNombre().isEmpty()) {
+        existente.setNombre(usuarioActualizado.getNombre());
+    }
+
+    if (usuarioActualizado.getTelefono() != null && !usuarioActualizado.getTelefono().isEmpty()) {
+        existente.setTelefono(usuarioActualizado.getTelefono());
+    }
+
+    if (usuarioActualizado.getEmail() != null && !usuarioActualizado.getEmail().isEmpty()) {
+        existente.setEmail(usuarioActualizado.getEmail());
+    }
+
+    if (usuarioActualizado.getDireccion() != null && !usuarioActualizado.getDireccion().isEmpty()) {
+        existente.setDireccion(usuarioActualizado.getDireccion());
+    }
+
+    if (usuarioActualizado.getFoto() != null && !usuarioActualizado.getFoto().isEmpty()) {
+        existente.setFoto(usuarioActualizado.getFoto());
+    }
+
+    if (usuarioActualizado.getContrasena() != null && !usuarioActualizado.getContrasena().isEmpty()) {
+        existente.setContrasena(passwordEncoder.encode(usuarioActualizado.getContrasena()));
+    }
+
+    return usuarioRepositorio.save(existente);
+} else {
+    throw new RuntimeException("Usuario no Encontrado");
+}
+
 
     }
 

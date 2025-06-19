@@ -25,5 +25,8 @@ public class Usuario {
     private String contrasena;
 
     private String rol;
+    
+    @Lob // Usar @Lob para almacenar grandes cantidades de datos, como imágenes
+    private String foto;
 
 }
