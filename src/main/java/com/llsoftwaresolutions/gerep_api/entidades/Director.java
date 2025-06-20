@@ -12,7 +12,7 @@ import lombok.Data;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Director extends Usuario {
 
-    @OneToMany(mappedBy = "director")
+    @OneToMany(mappedBy = "director", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Grupo> grupos;
 
 }

@@ -32,7 +32,7 @@ public class Grupo {
     @JsonIdentityReference(alwaysAsId = true)
     private Profesor profesor;
 
-    @OneToMany(mappedBy = "grupo")
+    @OneToMany(mappedBy = "grupo", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JsonIdentityReference(alwaysAsId = true)
     private List<Alumno> alumnos;
 }

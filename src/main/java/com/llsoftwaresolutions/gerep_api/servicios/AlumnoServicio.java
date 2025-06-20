@@ -1,5 +1,6 @@
 package com.llsoftwaresolutions.gerep_api.servicios;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,13 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.llsoftwaresolutions.gerep_api.entidades.Alumno;
+import com.llsoftwaresolutions.gerep_api.entidades.Asistencia;
+import com.llsoftwaresolutions.gerep_api.entidades.Incidencia;
 import com.llsoftwaresolutions.gerep_api.repositorios.AlumnoRepositorio;
+import com.llsoftwaresolutions.gerep_api.repositorios.AsistenciaRepositorio;
 
 @Service
 public class AlumnoServicio {
 
     @Autowired
     AlumnoRepositorio alumnoRepositorio;
+
+    @Autowired
+    AsistenciaRepositorio asistenciaRepositorio;
 
     public Alumno registrarAlumno(Alumno alumno) {
         return alumnoRepositorio.save(alumno);
@@ -72,12 +79,31 @@ public class AlumnoServicio {
                 existente.setGrupo(alumnoActualizado.getGrupo());
             }
 
-            if (alumnoActualizado.getAsistencias() != null && !alumnoActualizado.getAsistencias().isEmpty()) {
-                existente.setAsistencias(alumnoActualizado.getAsistencias());
+            if (alumnoActualizado.getAsistencias() != null) {
+                List<Asistencia> asistenciasActualizadas = new ArrayList<>();
+
+                for (Asistencia asistencia : alumnoActualizado.getAsistencias()) {
+                    if (asistencia.getId() != null) {
+                        Optional<Asistencia> existenteAsistenciaOpt = asistenciaRepositorio
+                                .findById(asistencia.getId());
+                        if (existenteAsistenciaOpt.isPresent()) {
+                            Asistencia existenteAsistencia = existenteAsistenciaOpt.get();
+                            if (asistencia.getFecha() != null)
+                                existenteAsistencia.setFecha(asistencia.getFecha());
+                            if (asistencia.getEstado() != null)
+                                existenteAsistencia.setEstado(asistencia.getEstado());
+                            existenteAsistencia.setAlumno(existente);
+                            asistenciasActualizadas.add(existenteAsistencia);
+                        }
+                    } else {
+                        // Nueva asistencia
+                        asistencia.setAlumno(existente);
+                        asistenciasActualizadas.add(asistencia);
+                    }
+                }
+                existente.setAsistencias(asistenciasActualizadas); // JPA la persistirá gracias al cascade
             }
-            if (alumnoActualizado.getIncidencias() != null && !alumnoActualizado.getIncidencias().isEmpty()) {
-                existente.setIncidencias(alumnoActualizado.getIncidencias());
-            }
+
             return alumnoRepositorio.save(existente);
         } else {
             throw new RuntimeException("Usuario no Encontrado");

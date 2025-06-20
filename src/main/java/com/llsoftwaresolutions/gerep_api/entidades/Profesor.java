@@ -13,7 +13,7 @@ import lombok.Data;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Profesor extends Usuario {
 
-    @OneToOne(mappedBy = "profesor") // ← relación no propietaria
+    @OneToOne(mappedBy = "profesor", cascade = { CascadeType.PERSIST, CascadeType.MERGE }) // ← relación no propietaria
     @JsonIdentityReference(alwaysAsId = true)
     private Grupo grupo;
 }

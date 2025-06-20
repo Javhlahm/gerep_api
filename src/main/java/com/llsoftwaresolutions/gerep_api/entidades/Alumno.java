@@ -43,7 +43,7 @@ public class Alumno {
 
     private String contactoEmergencia;
 
-    @OneToMany(mappedBy = "alumno")
+    @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL)
     @JsonIdentityReference(alwaysAsId = true) // poner esto siempre en un atributo con relacion para que no se cicle
     private List<Incidencia> incidencias;
 

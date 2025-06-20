@@ -66,18 +66,20 @@ public class GrupoServicio {
             if (grupoActualizado.getProfesor() != null) {
                 grupoExistente.setProfesor(grupoActualizado.getProfesor());
 
-                Optional<Profesor> profesor = profesorRepository.findById(grupoActualizado.getProfesor().getId());
-                profesor.get().setGrupo(grupoExistente);
-                profesorRepository.save(profesor.get());
             }
 
             if (grupoActualizado.getAlumnos() != null) {
                 grupoExistente.setAlumnos(grupoActualizado.getAlumnos());
 
                 for (Alumno alumno : grupoActualizado.getAlumnos()) {
-                    alumno.setGrupo(grupoExistente);
-                    alumnoRepository.save(alumno);
+                    Optional<Alumno> alumnoExistenteOpt = alumnoRepository.findById(alumno.getId());
+                    if (alumnoExistenteOpt.isPresent()) {
+                        Alumno alumnoExistente = alumnoExistenteOpt.get();
+                        alumnoExistente.setGrupo(grupoExistente);
+                        alumnoRepository.save(alumnoExistente);
+                    }
                 }
+
             }
 
             return grupoRepository.save(grupoExistente);
