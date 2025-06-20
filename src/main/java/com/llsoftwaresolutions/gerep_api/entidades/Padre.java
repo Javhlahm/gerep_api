@@ -19,7 +19,6 @@ import lombok.Data;
 public class Padre extends Usuario {
 
     @ManyToMany(mappedBy = "padres")
-    @Column(nullable = true)
     @JsonIdentityReference(alwaysAsId = true)
     private List<Alumno> alumnos;
 }

@@ -32,14 +32,27 @@ public class IncidenciaServicio {
     }
 
     public Incidencia actualizarIncidencia(Long id, Incidencia incidenciaActualizada) {
-        Optional<Incidencia> incidencia = incidenciaRepositorio.findById(id);
-        if (incidencia.isPresent()) {
-            incidencia.get().setDescripcion(incidenciaActualizada.getDescripcion());
-            incidencia.get().setFecha(incidenciaActualizada.getFecha());
-            incidencia.get().setStatus(incidenciaActualizada.getStatus());
-            incidencia.get().setJustificante(incidenciaActualizada.getJustificante());
-            incidencia.get().setAlumno(incidenciaActualizada.getAlumno());
-            return incidenciaRepositorio.save(incidencia.get());
+        Optional<Incidencia> incidenciaOpt = incidenciaRepositorio.findById(id);
+        if (incidenciaOpt.isPresent()) {
+            Incidencia incidencia = incidenciaOpt.get();
+
+            if (incidenciaActualizada.getDescripcion() != null && !incidenciaActualizada.getDescripcion().isEmpty()) {
+                incidencia.setDescripcion(incidenciaActualizada.getDescripcion());
+            }
+            if (incidenciaActualizada.getFecha() != null) {
+                incidencia.setFecha(incidenciaActualizada.getFecha());
+            }
+            if (incidenciaActualizada.getStatus() != null && !incidenciaActualizada.getStatus().isEmpty()) {
+                incidencia.setStatus(incidenciaActualizada.getStatus());
+            }
+            if (incidenciaActualizada.getJustificante() != null && !incidenciaActualizada.getJustificante().isEmpty()) {
+                incidencia.setJustificante(incidenciaActualizada.getJustificante());
+            }
+            if (incidenciaActualizada.getAlumno() != null) {
+                incidencia.setAlumno(incidenciaActualizada.getAlumno());
+            }
+
+            return incidenciaRepositorio.save(incidencia);
         } else {
             throw new RuntimeException("Incidencia no encontrada");
         }

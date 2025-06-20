@@ -1,9 +1,7 @@
 package com.llsoftwaresolutions.gerep_api.entidades;
 
 import java.time.LocalDate;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,8 +19,7 @@ public class Asistencia {
     private String estado;
 
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "alumno_id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Alumno alumno;
-
 }

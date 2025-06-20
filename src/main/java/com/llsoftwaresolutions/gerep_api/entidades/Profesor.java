@@ -10,13 +10,10 @@ import lombok.Data;
 @Entity
 @Table(name = "profesores")
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") //poner esto siempre que vaya a haber relaciones para que no se cicle infinitamente
-
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Profesor extends Usuario {
 
-    @OneToOne
-    @JoinColumn(name = "grupo_id", unique = true, nullable = true)
-    @JsonIdentityReference(alwaysAsId = true) //poner esto siempre en un atributo con relacion para que no se cicle infinitamente
+    @OneToOne(mappedBy = "profesor") // ← relación no propietaria
+    @JsonIdentityReference(alwaysAsId = true)
     private Grupo grupo;
-
 }

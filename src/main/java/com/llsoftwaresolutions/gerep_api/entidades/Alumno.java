@@ -12,7 +12,10 @@ import lombok.Data;
 
 @Entity
 @Table(name = "alumnos")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") //poner esto siempre que vaya a haber relaciones para que no se cicle infinitamente
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") // poner esto siempre que
+                                                                                           // vaya a haber relaciones
+                                                                                           // para que no se cicle
+                                                                                           // infinitamente
 @Data
 public class Alumno {
 
@@ -30,19 +33,18 @@ public class Alumno {
 
     @ManyToOne
     @JoinColumn(name = "grupo_id")
-    @JsonIdentityReference(alwaysAsId = true) //poner esto siempre en un atributo con relacion para que no se cicle infinitamente
+    @JsonIdentityReference(alwaysAsId = true) // poner esto siempre en un atributo con relacion para que no se cicle
     private Grupo grupo;
 
     @ManyToMany
     @JoinTable(name = "alumno_padre", joinColumns = @JoinColumn(name = "alumno_id"), inverseJoinColumns = @JoinColumn(name = "padre_id"))
-    @JsonIdentityReference(alwaysAsId = true) //poner esto siempre en un atributo con relacion para que no se cicle infinitamente
+    @JsonIdentityReference(alwaysAsId = true) // poner esto siempre en un atributo con relacion para que no se cicle
     private List<Padre> padres;
 
     private String contactoEmergencia;
 
     @OneToMany(mappedBy = "alumno")
-    @Column(unique = true)
-    @JsonIdentityReference(alwaysAsId = true) //poner esto siempre en un atributo con relacion para que no se cicle infinitamente
+    @JsonIdentityReference(alwaysAsId = true) // poner esto siempre en un atributo con relacion para que no se cicle
     private List<Incidencia> incidencias;
 
     @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL)

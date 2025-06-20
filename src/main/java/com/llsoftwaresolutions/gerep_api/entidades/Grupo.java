@@ -12,8 +12,7 @@ import lombok.Data;
 @Entity
 @Table(name = "grupos")
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") //poner esto siempre que vaya a haber relaciones para que no se cicle infinitamente
-
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Grupo {
 
     @Id
@@ -25,14 +24,15 @@ public class Grupo {
 
     @ManyToOne
     @JoinColumn(name = "director_id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Director director;
 
     @OneToOne
     @JoinColumn(name = "profesor_id", unique = true)
-    @JsonIdentityReference(alwaysAsId = true) //poner esto siempre en un atributo con relacion para que no se cicle infinitamente
+    @JsonIdentityReference(alwaysAsId = true)
     private Profesor profesor;
 
     @OneToMany(mappedBy = "grupo")
-    @JsonIdentityReference(alwaysAsId = true) //poner esto siempre en un atributo con relacion para que no se cicle infinitamente
+    @JsonIdentityReference(alwaysAsId = true)
     private List<Alumno> alumnos;
 }

@@ -37,37 +37,36 @@ public class UsuarioServicio {
         Optional<Usuario> usuario = usuarioRepositorio.findById(id);
 
         if (usuario.isPresent()) {
-    Usuario existente = usuario.get();
+            Usuario existente = usuario.get();
 
-    if (usuarioActualizado.getNombre() != null && !usuarioActualizado.getNombre().isEmpty()) {
-        existente.setNombre(usuarioActualizado.getNombre());
-    }
+            if (usuarioActualizado.getNombre() != null && !usuarioActualizado.getNombre().isEmpty()) {
+                existente.setNombre(usuarioActualizado.getNombre());
+            }
 
-    if (usuarioActualizado.getTelefono() != null && !usuarioActualizado.getTelefono().isEmpty()) {
-        existente.setTelefono(usuarioActualizado.getTelefono());
-    }
+            if (usuarioActualizado.getTelefono() != null && !usuarioActualizado.getTelefono().isEmpty()) {
+                existente.setTelefono(usuarioActualizado.getTelefono());
+            }
 
-    if (usuarioActualizado.getEmail() != null && !usuarioActualizado.getEmail().isEmpty()) {
-        existente.setEmail(usuarioActualizado.getEmail());
-    }
+            if (usuarioActualizado.getEmail() != null && !usuarioActualizado.getEmail().isEmpty()) {
+                existente.setEmail(usuarioActualizado.getEmail());
+            }
 
-    if (usuarioActualizado.getDireccion() != null && !usuarioActualizado.getDireccion().isEmpty()) {
-        existente.setDireccion(usuarioActualizado.getDireccion());
-    }
+            if (usuarioActualizado.getDireccion() != null && !usuarioActualizado.getDireccion().isEmpty()) {
+                existente.setDireccion(usuarioActualizado.getDireccion());
+            }
 
-    if (usuarioActualizado.getFoto() != null && !usuarioActualizado.getFoto().isEmpty()) {
-        existente.setFoto(usuarioActualizado.getFoto());
-    }
+            if (usuarioActualizado.getFoto() != null && !usuarioActualizado.getFoto().isEmpty()) {
+                existente.setFoto(usuarioActualizado.getFoto());
+            }
 
-    if (usuarioActualizado.getContrasena() != null && !usuarioActualizado.getContrasena().isEmpty()) {
-        existente.setContrasena(passwordEncoder.encode(usuarioActualizado.getContrasena()));
-    }
+            if (usuarioActualizado.getContrasena() != null && !usuarioActualizado.getContrasena().isEmpty()) {
+                existente.setContrasena(passwordEncoder.encode(usuarioActualizado.getContrasena()));
+            }
 
-    return usuarioRepositorio.save(existente);
-} else {
-    throw new RuntimeException("Usuario no Encontrado");
-}
-
+            return usuarioRepositorio.save(existente);
+        } else {
+            throw new RuntimeException("Usuario no Encontrado");
+        }
 
     }
 

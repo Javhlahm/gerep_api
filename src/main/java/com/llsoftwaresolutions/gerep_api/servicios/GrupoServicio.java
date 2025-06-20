@@ -66,9 +66,9 @@ public class GrupoServicio {
             if (grupoActualizado.getProfesor() != null) {
                 grupoExistente.setProfesor(grupoActualizado.getProfesor());
 
-                Profesor profesor = grupoActualizado.getProfesor();
-                profesor.setGrupo(grupoExistente);
-                profesorRepository.save(profesor);
+                Optional<Profesor> profesor = profesorRepository.findById(grupoActualizado.getProfesor().getId());
+                profesor.get().setGrupo(grupoExistente);
+                profesorRepository.save(profesor.get());
             }
 
             if (grupoActualizado.getAlumnos() != null) {

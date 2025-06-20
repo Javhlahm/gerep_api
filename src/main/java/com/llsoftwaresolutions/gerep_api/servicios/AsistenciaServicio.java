@@ -31,12 +31,27 @@ public class AsistenciaServicio {
         return asistenciaRepositorio.findByAlumnoId(alumnoId);
     }
 
-    public Asistencia actualizarAsistencia(Long id, Asistencia asistencia) {
-        if (asistenciaRepositorio.existsById(id)) {
-            asistencia.setId(id);
-            return asistenciaRepositorio.save(asistencia);
+    public Asistencia actualizarAsistencia(Long id, Asistencia asistenciaActualizada) {
+        Optional<Asistencia> asistenciaExistenteOpt = asistenciaRepositorio.findById(id);
+
+        if (asistenciaExistenteOpt.isPresent()) {
+            Asistencia asistenciaExistente = asistenciaExistenteOpt.get();
+
+            // Actualizar solo si el campo no es nulo o vacío
+            if (asistenciaActualizada.getFecha() != null) {
+                asistenciaExistente.setFecha(asistenciaActualizada.getFecha());
+            }
+            if (asistenciaActualizada.getEstado() != null && !asistenciaActualizada.getEstado().isEmpty()) {
+                asistenciaExistente.setEstado(asistenciaActualizada.getEstado());
+            }
+            if (asistenciaActualizada.getAlumno() != null) {
+                asistenciaExistente.setAlumno(asistenciaActualizada.getAlumno());
+            }
+
+            return asistenciaRepositorio.save(asistenciaExistente);
+        } else {
+            throw new RuntimeException("Asistencia con id " + id + " no encontrada");
         }
-        return null;
     }
 
     public void eliminarAsistencia(Long id) {
