@@ -27,10 +27,6 @@ public class AsistenciaServicio {
         return asistenciaRepositorio.findById(id);
     }
 
-    public List<Asistencia> obtenerAsistenciasPorAlumno(Long alumnoId) {
-        return asistenciaRepositorio.findByAlumnoId(alumnoId);
-    }
-
     public Asistencia actualizarAsistencia(Long id, Asistencia asistenciaActualizada) {
         Asistencia asistenciaExistente = asistenciaRepositorio.findById(id)
                 .orElseThrow(() -> new RuntimeException("Asistencia con id " + id + " no encontrada"));

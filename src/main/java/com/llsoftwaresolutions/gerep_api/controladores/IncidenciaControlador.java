@@ -41,11 +41,6 @@ public class IncidenciaControlador {
         }
     }
 
-    @GetMapping("/alumno/{alumnoId}")
-    public ResponseEntity<List<Incidencia>> obtenerPorAlumno(@PathVariable Long alumnoId) {
-        return ResponseEntity.ok(incidenciaServicio.buscarPorAlumnoId(alumnoId));
-    }
-
     @PostMapping
     public ResponseEntity<Incidencia> crear(@RequestBody Incidencia incidencia) {
         return ResponseEntity.ok(incidenciaServicio.guardarIncidencia(incidencia));

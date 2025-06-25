@@ -45,11 +45,6 @@ public class AsistenciaControlador {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/alumno/{alumnoId}")
-    public ResponseEntity<List<Asistencia>> obtenerAsistenciasPorAlumno(@PathVariable Long alumnoId) {
-        return ResponseEntity.ok(asistenciaServicio.obtenerAsistenciasPorAlumno(alumnoId));
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<Asistencia> actualizarAsistencia(@PathVariable Long id, @RequestBody Asistencia asistencia) {
         Asistencia asistenciaActualizada = asistenciaServicio.actualizarAsistencia(id, asistencia);

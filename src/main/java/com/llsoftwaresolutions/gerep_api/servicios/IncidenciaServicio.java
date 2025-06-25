@@ -23,10 +23,6 @@ public class IncidenciaServicio {
         return incidenciaRepositorio.findById(id);
     }
 
-    public List<Incidencia> buscarPorAlumnoId(Long alumnoId) {
-        return incidenciaRepositorio.findByAlumnoId(alumnoId);
-    }
-
     public Incidencia guardarIncidencia(Incidencia incidencia) {
         return incidenciaRepositorio.save(incidencia);
     }
