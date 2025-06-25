@@ -1,6 +1,5 @@
 package com.llsoftwaresolutions.gerep_api.servicios;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.llsoftwaresolutions.gerep_api.entidades.Alumno;
-import com.llsoftwaresolutions.gerep_api.entidades.Asistencia;
-import com.llsoftwaresolutions.gerep_api.entidades.Incidencia;
+
 import com.llsoftwaresolutions.gerep_api.repositorios.AlumnoRepositorio;
 import com.llsoftwaresolutions.gerep_api.repositorios.AsistenciaRepositorio;
 
