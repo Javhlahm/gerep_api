@@ -12,6 +12,7 @@ import com.llsoftwaresolutions.gerep_api.entidades.Director;
 import com.llsoftwaresolutions.gerep_api.entidades.Padre;
 import com.llsoftwaresolutions.gerep_api.entidades.Profesor;
 import com.llsoftwaresolutions.gerep_api.entidades.Usuario;
+import com.llsoftwaresolutions.gerep_api.servicios.PadreServicio;
 import com.llsoftwaresolutions.gerep_api.servicios.UsuarioServicio;
 
 @RestController
@@ -21,6 +22,9 @@ public class UsuarioControlador {
 
     @Autowired
     private UsuarioServicio usuarioServicio;
+
+    @Autowired
+    private PadreServicio padreServicio;
 
     @PostMapping("/registro/profesor")
     public ResponseEntity<Usuario> registrarProfesor(@RequestBody Profesor profesor) {
@@ -70,9 +74,9 @@ public class UsuarioControlador {
 
     @PutMapping("/padre/{id}")
     public ResponseEntity<Usuario> actualizarPadre(@PathVariable Long id, @RequestBody Padre padre) {
-        Optional<Usuario> usuarioExistente = usuarioServicio.obtenerUsuarioPorId(id);
-        if (usuarioExistente.isPresent()) {
-            return ResponseEntity.ok(usuarioServicio.actualizarUsuario(id, padre));
+        Optional<Padre> padreExistente = padreServicio.obtenerPadrePorId(id);
+        if (padreExistente.isPresent()) {
+            return ResponseEntity.ok(padreServicio.actualizarPadre(id, padre));
         } else {
             return ResponseEntity.notFound().build();
         }
