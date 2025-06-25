@@ -1,7 +1,6 @@
 package com.llsoftwaresolutions.gerep_api.entidades;
 
 import java.time.LocalDate;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
