@@ -32,26 +32,17 @@ public class AsistenciaServicio {
     }
 
     public Asistencia actualizarAsistencia(Long id, Asistencia asistenciaActualizada) {
-        Optional<Asistencia> asistenciaExistenteOpt = asistenciaRepositorio.findById(id);
+        Asistencia asistenciaExistente = asistenciaRepositorio.findById(id)
+                .orElseThrow(() -> new RuntimeException("Asistencia con id " + id + " no encontrada"));
 
-        if (asistenciaExistenteOpt.isPresent()) {
-            Asistencia asistenciaExistente = asistenciaExistenteOpt.get();
-
-            // Actualizar solo si el campo no es nulo o vacío
-            if (asistenciaActualizada.getFecha() != null) {
-                asistenciaExistente.setFecha(asistenciaActualizada.getFecha());
-            }
-            if (asistenciaActualizada.getEstado() != null && !asistenciaActualizada.getEstado().isEmpty()) {
-                asistenciaExistente.setEstado(asistenciaActualizada.getEstado());
-            }
-            if (asistenciaActualizada.getAlumno() != null) {
-                asistenciaExistente.setAlumno(asistenciaActualizada.getAlumno());
-            }
-
-            return asistenciaRepositorio.save(asistenciaExistente);
-        } else {
-            throw new RuntimeException("Asistencia con id " + id + " no encontrada");
+        if (asistenciaActualizada.getFecha() != null) {
+            asistenciaExistente.setFecha(asistenciaActualizada.getFecha());
         }
+        if (asistenciaActualizada.getEstado() != null && !asistenciaActualizada.getEstado().isEmpty()) {
+            asistenciaExistente.setEstado(asistenciaActualizada.getEstado());
+        }
+
+        return asistenciaRepositorio.save(asistenciaExistente);
     }
 
     public void eliminarAsistencia(Long id) {

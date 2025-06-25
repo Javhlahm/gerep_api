@@ -24,8 +24,4 @@ public class Incidencia {
     private String status;
     private String justificante;
 
-    @ManyToOne
-    @JoinColumn(name = "alumno_id")
-    @JsonIdentityReference(alwaysAsId = true)
-    private Alumno alumno;
 }

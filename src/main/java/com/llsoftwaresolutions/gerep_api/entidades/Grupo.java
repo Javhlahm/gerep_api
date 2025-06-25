@@ -1,10 +1,7 @@
 package com.llsoftwaresolutions.gerep_api.entidades;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -12,7 +9,6 @@ import lombok.Data;
 @Entity
 @Table(name = "grupos")
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Grupo {
 
     @Id
@@ -24,15 +20,13 @@ public class Grupo {
 
     @ManyToOne
     @JoinColumn(name = "director_id")
-    @JsonIdentityReference(alwaysAsId = true)
     private Director director;
 
-    @OneToOne
+    @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "profesor_id", unique = true)
-    @JsonIdentityReference(alwaysAsId = true)
     private Profesor profesor;
 
-    @OneToMany(mappedBy = "grupo", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JsonIdentityReference(alwaysAsId = true)
-    private List<Alumno> alumnos;
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinColumn(name = "grupo_id")
+    private List<Alumno> alumnos = new ArrayList<>();
 }

@@ -82,7 +82,8 @@ public class ReporteServicio {
             if (asistenciaOpt.isPresent() && "ausente".equalsIgnoreCase(asistenciaOpt.get().getEstado())) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("nombreAlumno", alumno.getNombre());
-                map.put("grupo", alumno.getGrupo() != null ? alumno.getGrupo().getNombre() : "Sin grupo");
+                // map.put("grupo", alumno.getGrupo() != null ? alumno.getGrupo().getNombre() :
+                // "Sin grupo");
                 map.put("fecha", fecha.toString());
                 map.put("estado", "ausente");
                 resultado.add(map);

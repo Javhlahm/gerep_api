@@ -18,8 +18,4 @@ public class Asistencia {
 
     private String estado;
 
-    @ManyToOne
-    @JoinColumn(name = "alumno_id")
-    @JsonIdentityReference(alwaysAsId = true)
-    private Alumno alumno;
 }

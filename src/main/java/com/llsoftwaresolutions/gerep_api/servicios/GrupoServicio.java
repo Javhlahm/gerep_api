@@ -6,6 +6,9 @@ import com.llsoftwaresolutions.gerep_api.entidades.Profesor;
 import com.llsoftwaresolutions.gerep_api.repositorios.AlumnoRepositorio;
 import com.llsoftwaresolutions.gerep_api.repositorios.GrupoRepositorio;
 import com.llsoftwaresolutions.gerep_api.repositorios.ProfesorRepositorio;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,16 +28,7 @@ public class GrupoServicio {
     private AlumnoRepositorio alumnoRepository;
 
     public Grupo registrarGrupo(Grupo grupo) {
-        Grupo grupoGuardado = grupoRepository.save(grupo);
-
-        if (grupoGuardado.getProfesor() != null) {
-            Long profesorId = grupoGuardado.getProfesor().getId();
-            Optional<Profesor> profesorCompleto = profesorRepository.findById(profesorId);
-
-            profesorCompleto.get().setGrupo(grupoGuardado);
-            profesorRepository.save(profesorCompleto.get());
-        }
-        return grupoGuardado;
+        return grupoRepository.save(grupo);
     }
 
     public List<Grupo> obtenerTodosLosGrupos() {
@@ -45,47 +39,40 @@ public class GrupoServicio {
         return grupoRepository.findById(id);
     }
 
+    @Transactional
     public void eliminarGrupo(Long id) {
-        grupoRepository.deleteById(id);
+        Grupo grupo = grupoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Grupo no encontrado"));
+        grupoRepository.delete(grupo);
     }
 
+    @Transactional
     public Grupo actualizarGrupo(Long id, Grupo grupoActualizado) {
-        Optional<Grupo> grupoOpt = grupoRepository.findById(id);
+        Grupo grupoExistente = grupoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Grupo no encontrado"));
 
-        if (grupoOpt.isPresent()) {
-            Grupo grupoExistente = grupoOpt.get();
-
-            if (grupoActualizado.getNombre() != null && !grupoActualizado.getNombre().isEmpty()) {
-                grupoExistente.setNombre(grupoActualizado.getNombre());
-            }
-
-            if (grupoActualizado.getDirector() != null) {
-                grupoExistente.setDirector(grupoActualizado.getDirector());
-            }
-
-            if (grupoActualizado.getProfesor() != null) {
-                grupoExistente.setProfesor(grupoActualizado.getProfesor());
-
-            }
-
-            if (grupoActualizado.getAlumnos() != null) {
-                grupoExistente.setAlumnos(grupoActualizado.getAlumnos());
-
-                for (Alumno alumno : grupoActualizado.getAlumnos()) {
-                    Optional<Alumno> alumnoExistenteOpt = alumnoRepository.findById(alumno.getId());
-                    if (alumnoExistenteOpt.isPresent()) {
-                        Alumno alumnoExistente = alumnoExistenteOpt.get();
-                        alumnoExistente.setGrupo(grupoExistente);
-                        alumnoRepository.save(alumnoExistente);
-                    }
-                }
-
-            }
-
-            return grupoRepository.save(grupoExistente);
-        } else {
-            throw new RuntimeException("Grupo no encontrado");
+        // Actualizar nombre
+        if (grupoActualizado.getNombre() != null && !grupoActualizado.getNombre().isEmpty()) {
+            grupoExistente.setNombre(grupoActualizado.getNombre());
         }
-    }
 
+        // Actualizar profesor
+        if (grupoActualizado.getProfesor() != null && grupoActualizado.getProfesor().getId() != null) {
+            Profesor profesor = profesorRepository.findById(grupoActualizado.getProfesor().getId())
+                    .orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
+            grupoExistente.setProfesor(profesor);
+        }
+
+        // Actualizar lista de alumnos
+        if (grupoActualizado.getAlumnos() != null) {
+            List<Alumno> alumnos = alumnoRepository.findAllById(
+                    grupoActualizado.getAlumnos()
+                            .stream()
+                            .map(Alumno::getId)
+                            .toList());
+            grupoExistente.setAlumnos(alumnos);
+        }
+
+        return grupoRepository.save(grupoExistente);
+    }
 }

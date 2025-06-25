@@ -58,9 +58,7 @@ public class AlumnoServicio {
             if (alumnoActualizado.getFoto() != null && !alumnoActualizado.getFoto().isEmpty()) {
                 existente.setFoto(alumnoActualizado.getFoto());
             }
-            if (alumnoActualizado.getPadres() != null && !alumnoActualizado.getPadres().isEmpty()) {
-                existente.setPadres(alumnoActualizado.getPadres());
-            }
+
             if (alumnoActualizado.getContactoEmergencia() != null
                     && !alumnoActualizado.getContactoEmergencia().isEmpty()) {
                 existente.setContactoEmergencia(alumnoActualizado.getContactoEmergencia());
@@ -75,33 +73,13 @@ public class AlumnoServicio {
                     && !alumnoActualizado.getCuidadosEspeciales().isEmpty()) {
                 existente.setCuidadosEspeciales(alumnoActualizado.getCuidadosEspeciales());
             }
-            if (alumnoActualizado.getGrupo() != null && alumnoActualizado.getGrupo().getId() != null) {
-                existente.setGrupo(alumnoActualizado.getGrupo());
-            }
 
             if (alumnoActualizado.getAsistencias() != null) {
-                List<Asistencia> asistenciasActualizadas = new ArrayList<>();
+                existente.getAsistencias().addAll(alumnoActualizado.getAsistencias());
+            }
 
-                for (Asistencia asistencia : alumnoActualizado.getAsistencias()) {
-                    if (asistencia.getId() != null) {
-                        Optional<Asistencia> existenteAsistenciaOpt = asistenciaRepositorio
-                                .findById(asistencia.getId());
-                        if (existenteAsistenciaOpt.isPresent()) {
-                            Asistencia existenteAsistencia = existenteAsistenciaOpt.get();
-                            if (asistencia.getFecha() != null)
-                                existenteAsistencia.setFecha(asistencia.getFecha());
-                            if (asistencia.getEstado() != null)
-                                existenteAsistencia.setEstado(asistencia.getEstado());
-                            existenteAsistencia.setAlumno(existente);
-                            asistenciasActualizadas.add(existenteAsistencia);
-                        }
-                    } else {
-                        // Nueva asistencia
-                        asistencia.setAlumno(existente);
-                        asistenciasActualizadas.add(asistencia);
-                    }
-                }
-                existente.setAsistencias(asistenciasActualizadas); // JPA la persistirá gracias al cascade
+            if (alumnoActualizado.getIncidencias() != null) {
+                existente.getIncidencias().addAll(alumnoActualizado.getIncidencias());
             }
 
             return alumnoRepositorio.save(existente);

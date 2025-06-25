@@ -13,7 +13,7 @@ import com.llsoftwaresolutions.gerep_api.repositorios.IncidenciaRepositorio;
 public class IncidenciaServicio {
 
     @Autowired
-    IncidenciaRepositorio incidenciaRepositorio;
+    private IncidenciaRepositorio incidenciaRepositorio;
 
     public List<Incidencia> listarIncidencias() {
         return incidenciaRepositorio.findAll();
@@ -32,30 +32,23 @@ public class IncidenciaServicio {
     }
 
     public Incidencia actualizarIncidencia(Long id, Incidencia incidenciaActualizada) {
-        Optional<Incidencia> incidenciaOpt = incidenciaRepositorio.findById(id);
-        if (incidenciaOpt.isPresent()) {
-            Incidencia incidencia = incidenciaOpt.get();
+        Incidencia incidenciaExistente = incidenciaRepositorio.findById(id)
+                .orElseThrow(() -> new RuntimeException("Incidencia no encontrada"));
 
-            if (incidenciaActualizada.getDescripcion() != null && !incidenciaActualizada.getDescripcion().isEmpty()) {
-                incidencia.setDescripcion(incidenciaActualizada.getDescripcion());
-            }
-            if (incidenciaActualizada.getFecha() != null) {
-                incidencia.setFecha(incidenciaActualizada.getFecha());
-            }
-            if (incidenciaActualizada.getStatus() != null && !incidenciaActualizada.getStatus().isEmpty()) {
-                incidencia.setStatus(incidenciaActualizada.getStatus());
-            }
-            if (incidenciaActualizada.getJustificante() != null && !incidenciaActualizada.getJustificante().isEmpty()) {
-                incidencia.setJustificante(incidenciaActualizada.getJustificante());
-            }
-            if (incidenciaActualizada.getAlumno() != null) {
-                incidencia.setAlumno(incidenciaActualizada.getAlumno());
-            }
-
-            return incidenciaRepositorio.save(incidencia);
-        } else {
-            throw new RuntimeException("Incidencia no encontrada");
+        if (incidenciaActualizada.getDescripcion() != null && !incidenciaActualizada.getDescripcion().isEmpty()) {
+            incidenciaExistente.setDescripcion(incidenciaActualizada.getDescripcion());
         }
+        if (incidenciaActualizada.getFecha() != null) {
+            incidenciaExistente.setFecha(incidenciaActualizada.getFecha());
+        }
+        if (incidenciaActualizada.getStatus() != null && !incidenciaActualizada.getStatus().isEmpty()) {
+            incidenciaExistente.setStatus(incidenciaActualizada.getStatus());
+        }
+        if (incidenciaActualizada.getJustificante() != null && !incidenciaActualizada.getJustificante().isEmpty()) {
+            incidenciaExistente.setJustificante(incidenciaActualizada.getJustificante());
+        }
+
+        return incidenciaRepositorio.save(incidenciaExistente);
     }
 
     public void eliminarIncidencia(Long id) {
