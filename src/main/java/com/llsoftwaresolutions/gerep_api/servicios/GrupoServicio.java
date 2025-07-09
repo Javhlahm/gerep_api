@@ -75,4 +75,8 @@ public class GrupoServicio {
 
         return grupoRepository.save(grupoExistente);
     }
+
+    public Optional<Grupo> obtenerGrupoPorProfesor(Long profesorId) {
+        return grupoRepository.findByProfesor_Id(profesorId);
+    }
 }

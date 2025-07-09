@@ -38,6 +38,16 @@ public class GrupoControlador {
         }
     }
 
+    @GetMapping("/profesor/{profesorId}")
+    public ResponseEntity<Grupo> obtenerGrupoPorProfesor(@PathVariable Long profesorId) {
+        Optional<Grupo> grupoEncontrado = grupoServicio.obtenerGrupoPorProfesor(profesorId);
+        if (grupoEncontrado.isPresent()) {
+            return ResponseEntity.ok(grupoEncontrado.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Grupo> actualizarGrupo(@PathVariable Long id, @RequestBody Grupo grupoActualizado) {
         Optional<Grupo> grupoExistente = grupoServicio.obtenerGrupoPorId(id);
