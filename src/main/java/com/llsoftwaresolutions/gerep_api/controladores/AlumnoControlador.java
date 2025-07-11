@@ -1,6 +1,8 @@
 package com.llsoftwaresolutions.gerep_api.controladores;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.llsoftwaresolutions.gerep_api.entidades.Alumno;
+import com.llsoftwaresolutions.gerep_api.entidades.Asistencia;
 import com.llsoftwaresolutions.gerep_api.servicios.AlumnoServicio;
+import com.llsoftwaresolutions.gerep_api.servicios.AsistenciaServicio;
 
 @RestController
 @RequestMapping("/alumnos")
@@ -25,6 +29,9 @@ public class AlumnoControlador {
 
     @Autowired
     private AlumnoServicio alumnoServicio;
+
+    @Autowired
+    private AsistenciaServicio asistenciaServicio;
 
     @PostMapping
     public ResponseEntity<Alumno> registrarAlumno(@RequestBody Alumno alumno) {
@@ -71,5 +78,17 @@ public class AlumnoControlador {
     public ResponseEntity<Void> eliminarAlumno(@PathVariable Long id) {
         alumnoServicio.eliminarAlumno(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/asistencia")
+    public ResponseEntity<Asistencia> agregarAsistencia(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> body) {
+
+        LocalDate fecha = LocalDate.parse(body.get("fecha"));
+        String estado = body.getOrDefault("estado", "PRESENTE");
+
+        Asistencia creada = asistenciaServicio.registrarAsistencia(id, fecha, estado);
+        return ResponseEntity.ok(creada);
     }
 }

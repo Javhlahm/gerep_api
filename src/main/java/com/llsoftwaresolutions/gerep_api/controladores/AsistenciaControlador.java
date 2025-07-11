@@ -1,6 +1,8 @@
 package com.llsoftwaresolutions.gerep_api.controladores;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +28,10 @@ public class AsistenciaControlador {
     @Autowired
     private AsistenciaServicio asistenciaServicio;
 
-    @PostMapping("/registrar")
-    public ResponseEntity<Asistencia> registrarAsistencia(@RequestBody Asistencia asistencia) {
-        return ResponseEntity.ok(asistenciaServicio.registrarAsistencia(asistencia));
+    @GetMapping("/alumno/{alumnoId}")
+    public ResponseEntity<List<Asistencia>> asistenciasDeAlumno(@PathVariable Long alumnoId) {
+        List<Asistencia> lista = asistenciaServicio.listarAsistenciasPorAlumno(alumnoId);
+        return ResponseEntity.ok(lista);
     }
 
     @GetMapping
@@ -56,5 +59,14 @@ public class AsistenciaControlador {
     public ResponseEntity<Void> eliminarAsistencia(@PathVariable Long id) {
         asistenciaServicio.eliminarAsistencia(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/existe")
+    public ResponseEntity<Boolean> tieneAsistenciaFecha(@RequestBody Map<String, Object> datos) {
+        Long alumnoId = ((Number) datos.get("alumnoId")).longValue();
+        LocalDate fecha = LocalDate.parse(datos.get("fecha").toString());
+        boolean existe = asistenciaServicio.asistenciaRegistradaFecha(alumnoId, fecha);
+        return ResponseEntity.ok(existe);
+
     }
 }
