@@ -2,6 +2,8 @@ package com.llsoftwaresolutions.gerep_api.entidades;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,6 +17,8 @@ public class Incidencia {
     private Long id;
 
     private String descripcion;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate fecha;
     private String status;
     private String justificante;

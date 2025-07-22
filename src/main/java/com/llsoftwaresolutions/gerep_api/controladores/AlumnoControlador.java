@@ -1,6 +1,7 @@
 package com.llsoftwaresolutions.gerep_api.controladores;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,8 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.llsoftwaresolutions.gerep_api.entidades.Alumno;
 import com.llsoftwaresolutions.gerep_api.entidades.Asistencia;
+import com.llsoftwaresolutions.gerep_api.entidades.Incidencia;
 import com.llsoftwaresolutions.gerep_api.servicios.AlumnoServicio;
 import com.llsoftwaresolutions.gerep_api.servicios.AsistenciaServicio;
+import com.llsoftwaresolutions.gerep_api.servicios.IncidenciaServicio;
 
 @RestController
 @RequestMapping("/alumnos")
@@ -32,6 +35,9 @@ public class AlumnoControlador {
 
     @Autowired
     private AsistenciaServicio asistenciaServicio;
+
+    @Autowired
+    private IncidenciaServicio incidenciaServicio;
 
     @PostMapping
     public ResponseEntity<Alumno> registrarAlumno(@RequestBody Alumno alumno) {
@@ -85,10 +91,25 @@ public class AlumnoControlador {
             @PathVariable Long id,
             @RequestBody Map<String, String> body) {
 
-        LocalDate fecha = LocalDate.parse(body.get("fecha"));
+        LocalDate fecha = LocalDate.parse(body.get("fecha"), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         String estado = body.getOrDefault("estado", "PRESENTE");
 
         Asistencia creada = asistenciaServicio.registrarAsistencia(id, fecha, estado);
         return ResponseEntity.ok(creada);
     }
+
+    @PostMapping("/{id}/incidencia")
+    public ResponseEntity<Incidencia> agregarIncidencia(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> body) {
+
+        LocalDate fecha = LocalDate.parse(body.get("fecha"), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String descripcion = body.getOrDefault("descripcion", "");
+        String status = body.getOrDefault("status", "PENDIENTE");
+        String justificante = body.getOrDefault("justificante", "");
+
+        Incidencia creada = incidenciaServicio.registrarIncidencia(id, descripcion, fecha, status, justificante);
+        return ResponseEntity.ok(creada);
+    }
+
 }
