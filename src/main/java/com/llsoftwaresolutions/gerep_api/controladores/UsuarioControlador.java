@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import com.llsoftwaresolutions.gerep_api.entidades.Director;
 import com.llsoftwaresolutions.gerep_api.entidades.Padre;
 import com.llsoftwaresolutions.gerep_api.entidades.Profesor;
 import com.llsoftwaresolutions.gerep_api.entidades.Usuario;
+import com.llsoftwaresolutions.gerep_api.security.Jwt;
 import com.llsoftwaresolutions.gerep_api.servicios.PadreServicio;
 import com.llsoftwaresolutions.gerep_api.servicios.UsuarioServicio;
 
@@ -25,6 +27,9 @@ public class UsuarioControlador {
 
     @Autowired
     private PadreServicio padreServicio;
+
+    @Autowired
+    private Jwt jwt;
 
     @PostMapping("/registro/profesor")
     public ResponseEntity<Usuario> registrarProfesor(@RequestBody Profesor profesor) {
@@ -99,12 +104,18 @@ public class UsuarioControlador {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Usuario> autenticarUsuario(@RequestBody Map<String, String> datos) {
+    public ResponseEntity<?> autenticarUsuario(@RequestBody Map<String, String> datos) {
         String email = datos.get("email");
         String contrasena = datos.get("password");
 
-        Optional<Usuario> autenticado = usuarioServicio.autenticarUsuario(email, contrasena);
-        return autenticado.isPresent() ? ResponseEntity.ok(autenticado.get())
-                : ResponseEntity.status(401).body(null);
+
+            Optional<Usuario> autenticado = usuarioServicio.autenticarUsuario(email, contrasena);
+            if (autenticado.isPresent()) {
+                final String token = jwt.generarToken(autenticado.get().getEmail());
+                return ResponseEntity.ok(Map.of("token", token));
+            } else {
+                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
+            }
+
     }
 }

@@ -1,14 +1,20 @@
 package com.llsoftwaresolutions.gerep_api.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class ConfiguracionSeguridad {
+
+    @Autowired
+    private Jwt jwtUtils;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -20,15 +26,16 @@ public class ConfiguracionSeguridad {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/usuarios/**").permitAll()
-                        .requestMatchers("/alumnos/**").permitAll()
-                        .requestMatchers("/asistencias/**").permitAll()
-                        .requestMatchers("/grupos/**").permitAll()
-                        .requestMatchers("/contactos-emergencia/**").permitAll()
-                        .requestMatchers("/incidencias/**").permitAll()
-                        .requestMatchers("/api/reportes/**").permitAll()
+                        .requestMatchers("/usuarios/login").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                );
+        
+        // poner el filtro JWT antes del filtro de autenticación de usuario y contraseña
+        http.addFilterBefore(jwtUtils, UsernamePasswordAuthenticationFilter.class);
 
-                        .anyRequest().authenticated());
         return http.build();
     }
 }
