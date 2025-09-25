@@ -62,6 +62,16 @@ public class UsuarioControlador {
         }
     }
 
+        @GetMapping("/email/{email}")
+    public ResponseEntity<Usuario> obtenerUsuarioEmail(@PathVariable String email) {
+        Optional<Usuario> usuarioEncontrado = usuarioServicio.obtenerUsuarioPorEmail(email);
+        if (usuarioEncontrado.isPresent()) {
+            return ResponseEntity.ok(usuarioEncontrado.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping
     public ResponseEntity<List<Usuario>> listarUsuarios() {
         return ResponseEntity.ok(usuarioServicio.listarUsuarios());
@@ -108,7 +118,7 @@ public class UsuarioControlador {
         String email = datos.get("email");
         String contrasena = datos.get("password");
 
-
+        try {
             Optional<Usuario> autenticado = usuarioServicio.autenticarUsuario(email, contrasena);
             if (autenticado.isPresent()) {
                 final String token = jwt.generarToken(autenticado.get().getEmail());
@@ -116,6 +126,8 @@ public class UsuarioControlador {
             } else {
                  return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
             }
-
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class ConfiguracionSeguridad {
 
     @Autowired
-    private Jwt jwtUtils;
+    private Jwt jwt;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -34,7 +34,7 @@ public class ConfiguracionSeguridad {
                 );
         
         // poner el filtro JWT antes del filtro de autenticación de usuario y contraseña
-        http.addFilterBefore(jwtUtils, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwt, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

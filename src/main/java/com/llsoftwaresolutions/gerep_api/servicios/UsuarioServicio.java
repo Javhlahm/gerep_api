@@ -29,6 +29,15 @@ public class UsuarioServicio {
         return usuarioEncontrado;
     }
 
+    public Optional<Usuario> obtenerUsuarioPorEmail(String email) {
+        Optional<Usuario> usuarioEncontrado = usuarioRepositorio.findByEmail(email);
+        if(usuarioEncontrado.isPresent()){
+            return usuarioEncontrado;    
+        }else{
+            throw new RuntimeException("Usuario no Encontrado");
+        }
+    }
+
     public List<Usuario> listarUsuarios() {
         return usuarioRepositorio.findAll();
     }
@@ -88,4 +97,6 @@ public class UsuarioServicio {
         }
 
     }
-}
+
+
+}       

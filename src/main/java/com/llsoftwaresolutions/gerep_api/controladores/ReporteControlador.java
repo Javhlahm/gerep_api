@@ -17,7 +17,7 @@ import com.llsoftwaresolutions.gerep_api.servicios.ReporteExcelUtils;
 import com.llsoftwaresolutions.gerep_api.servicios.ReporteServicio;
 
 @RestController
-@RequestMapping("/api/reportes")
+@RequestMapping("/reportes")
 @CrossOrigin(origins = "*")
 public class ReporteControlador {
 

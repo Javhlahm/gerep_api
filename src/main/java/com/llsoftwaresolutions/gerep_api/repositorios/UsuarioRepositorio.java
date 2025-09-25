@@ -11,4 +11,5 @@ import com.llsoftwaresolutions.gerep_api.entidades.Usuario;
 public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
 
     Optional<Usuario> findByEmail(String email);
+    
 }
